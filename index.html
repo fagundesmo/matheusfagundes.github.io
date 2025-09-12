@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple White Site</title>
+  <meta name="description" content="A minimal white website with a hero image and vertical tabs." />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #e5e7eb;
+      --accent: #0a84ff;
+    }
+
+    /* Layout & base */
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid var(--muted);
+      padding: 16px 20px 60px; /* extra bottom space so tabs can sit at top */
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-size: 18px;
+    }
+
+    /* Vertical tabs (top-right) */
+    nav.tabs[role="tablist"] {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      flex-direction: column; /* vertical */
+      gap: 8px;
+      align-items: stretch;
+    }
+    nav.tabs button[role="tab"] {
+      appearance: none;
+      border: 1px solid var(--muted);
+      background: #fff;
+      color: var(--fg);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      transition: border-color .18s ease, box-shadow .18s ease, transform .06s ease;
+    }
+    nav.tabs button[role="tab"]:hover { transform: translateY(-1px); }
+    nav.tabs button[role="tab"][aria-selected="true"] {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(10,132,255,.15);
+    }
+    nav.tabs button[role="tab"]:focus-visible {
+      outline: 3px solid rgba(10,132,255,.35);
+      outline-offset: 2px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 80px auto 56px;
+      padding: 0 16px;
+    }
+
+    /* Panels */
+    [role="tabpanel"][hidden] { display: none; }
+
+    /* Home (hero) */
+    .hero {
+      margin: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--muted);
+      box-shadow: 0 4px 16px rgba(0,0,0,.05);
+    }
+    .hero img {
+      width: 100%;
+      height: clamp(240px, 50vw, 520px);
+      object-fit: cover;
+      display: block;
+      background: #f6f6f6;
+    }
+    .blurb {
+      margin-top: 18px;
+    }
+    .blurb h1 {
+      margin: 0 0 8px;
+      font-size: clamp(20px, 2.4vw, 28px);
+      line-height: 1.25;
+    }
+    .blurb p {
+      margin: 0;
+      max-width: 70ch;
+      font-size: 16px;
+    }
+
+    /* Simple content styles for other tabs */
+    .card {
+      border: 1px solid var(--muted);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
+      background: #fff;
+    }
+
+    /* Small screens: keep tabs usable */
+    @media (max-width: 560px) {
+      nav.tabs[role="tablist"] { right: 8px; top: 8px; gap: 6px; }
+      nav.tabs button[role="tab"] { padding: 6px 10px; font-size: 14px; }
+      .brand { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">Your Site</div>
+
+    <!-- Vertical tabs (top-right) -->
+    <nav class="tabs" role="tablist" aria-orientation="vertical" aria-label="Site sections">
+      <button role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" tabindex="0">Home</button>
+      <button role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+      <button role="tab" id="tab-gallery" aria-controls="panel-gallery" aria-selected="false" tabindex="-1">Gallery</button>
+      <button role="tab" id="tab-contact" aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Home -->
+    <section id="panel-home" role="tabpanel" aria-labelledby="tab-home">
+      <figure class="hero">
+        <!-- Replace with your own image file -->
+        <img src="assets/hero.jpg" alt="Featured visual for the site" />
+      </figure>
+
+      <div class="blurb">
+        <h1>Short Description</h1>
+        <!-- Edit this paragraph directly (or keep contenteditable for easy tweaks) -->
+        <p contenteditable="true" spellcheck="true">
+          Write a concise introduction here. One or two sentences describing who you are,
+          what this site is about, or the project you’re showcasing.
+        </p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" hidden>
+      <div class="card">
+        <h2>About</h2>
+        <p>Add a short bio or mission statement. Keep it simple and skimmable.</p>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="panel-gallery" role="tabpanel" aria-labelledby="tab-gallery" hidden>
+      <div class="card">
+        <h2>Gallery</h2>
+        <p>Drop in more images or links here.</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" hidden>
+      <div class="card">
+        <h2>Contact</h2>
+        <p>Email, social links, or a simple message.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Accessible tab behaviour (click + keyboard)
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+    function activateTab(tab) {
+      tabs.forEach(t => {
+        const selected = t === tab;
+        t.setAttribute('aria-selected', selected);
+        t.tabIndex = selected ? 0 : -1;
+      });
+
+      panels.forEach(p => {
+        p.hidden = p.id !== tab.getAttribute('aria-controls');
+      });
+
+      tab.focus();
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activateTab(tab));
+      tab.addEventListener('keydown', (e) => {
+        const i = tabs.indexOf(tab);
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activateTab(tabs[(i + 1) % tabs.length]);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activateTab(tabs[(i - 1 + tabs.length) % tabs.length]);
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          activateTab(tabs[0]);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          activateTab(tabs[tabs.length - 1]);
+        }
+      });
+    });
+
+    // Initialize (ensures correct panel is visible on load)
+    activateTab(document.querySelector('[role="tab"][aria-selected="true"]'));
+  </script>
+</body>
+</html>
